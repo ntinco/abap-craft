@@ -37,6 +37,12 @@ It is meant to show:
 - long-term reasoning in SAP custom code
 - the ability to structure knowledge for both humans and AI
 
+## Operating model
+
+The repository is **human-owned, AI-maintained, human-readable**.
+
+The author owns intent, architectural judgment, lived experience, editorial voice and publication acceptance. AI is the primary maintenance executor for repository consistency, translations, metadata, publishing mechanics, validation and structural upkeep. AI must not invent experience or conclusions on the author's behalf, and the repository must remain directly understandable without requiring AI reconstruction.
+
 ## Main topics
 
 - ABAP architecture
@@ -74,7 +80,7 @@ This repository prefers:
 
 - simplicity over completeness
 - one source of truth over duplicated convenience
-- human readability over clever automation
+- human readability alongside AI-maintained consistency
 - stable structure over fast expansion
 - editing existing files before creating new ones
 
