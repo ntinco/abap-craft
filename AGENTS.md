@@ -2,6 +2,15 @@
 
 This file defines how AI agents should work in `ABAP_Keyflow`.
 
+## Operating model
+
+This repository is **human-owned, AI-maintained, human-readable**.
+
+- The human owns intent, architectural judgment, lived project experience, editorial voice, publication decisions, and final acceptance.
+- AI is the primary technical and editorial maintainer for repository consistency, implementation, refactoring, translation parity, publishing mechanics, validation, and maintenance of these instructions.
+- AI must not invent experiences, opinions, metrics, production outcomes, or architectural conclusions and attribute them to the author.
+- Optimizing maintenance for AI must never make the repository dependent on AI for direct human understanding or reuse.
+
 The repository should stay simple, readable, and easy to maintain.
 
 ## Core intent
@@ -54,6 +63,7 @@ When editing this repository:
 - keep structure boring and obvious
 - keep public URLs stable when practical
 - preserve backward compatibility for article links where possible
+- use AI to remove maintenance friction, not to add abstraction or process
 
 ## Simplicity rules
 
@@ -103,7 +113,7 @@ Use placeholders such as:
 
 When creating or updating an article:
 
-1. Start from a real architectural lesson or tradeoff.
+1. Start from a real architectural lesson or tradeoff supplied or approved by the human owner.
 2. Write the English source first unless the user explicitly wants another order.
 3. Keep front matter complete and consistent.
 4. Preserve or add:
@@ -116,7 +126,7 @@ When creating or updating an article:
    - `description`
    - translation links
 5. Keep the tone senior, direct, and architecture-focused.
-6. Never add unsupported claims, invented metrics, or production-identifying details.
+6. Never add unsupported claims, invented metrics, production-identifying details, or fabricated personal experience.
 
 ## Translation workflow
 
@@ -169,6 +179,7 @@ Before publishing:
 - preserve article-to-article translation links
 - ensure redirects still point to canonical article pages
 - make sure homepage links still match live content
+- verify that no production-identifying detail or unsupported personal claim was introduced
 
 ## When to create more structure
 
@@ -184,8 +195,10 @@ Until then, keep the repository minimal.
 
 Agents working here should:
 
+- act as the primary maintenance executor once human intent is clear
 - make small, understandable changes
+- maintain translation, metadata, links, redirects and publishing consistency proactively within scope
 - explain structure through code and file organization, not through complexity
 - avoid inventing conventions that are not already established
-- keep human readers in mind first
+- preserve direct human readability and the author's voice
 - use AI support to reduce friction, not to add abstraction
