@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Human-owned publication operated primarily by AI with human-facing output.",
+  "domains": {
+    "control": ["AGENTS.md", "ai/governance.md", "ai/repo-map.json"],
+    "canonical_articles": ["_posts/"],
+    "presentation": ["_layouts/", "index.html", "posts.md", "_config.yml"],
+    "legacy_redirects": ["posts/"],
+    "editorial_voice": ["prompts/editorial-voice.md"],
+    "templates": ["prompts/templates/"]
+  },
+  "routing": {
+    "write_or_edit_article": ["prompts/editorial-voice.md", "_posts/"],
+    "translation_sync": ["_posts/"],
+    "publishing_mechanics": ["_posts/", "_layouts/", "index.html", "posts.md", "_config.yml", "posts/"],
+    "editorial_voice_change": ["prompts/editorial-voice.md"]
+  },
+  "heavy_or_opt_in": [],
+  "validators": [
+    "python -m unittest discover -s tests -v",
+    "python tools/health_check.py --strict",
+    "GitHub Pages Jekyll build"
+  ]
+}
