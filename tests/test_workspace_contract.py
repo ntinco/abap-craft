@@ -30,6 +30,18 @@ class WorkspaceContractTests(unittest.TestCase):
             self.assertEqual(MODULE.workspace_contract_problems(root),
                              ["workspace contract edited here: edit it in gen-box and run tools/contract_sync.py"])
 
+    def test_contract_must_match_gen_box_master(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = self.copy_repo(str(Path(tmp) / "repo"))
+            source = (root / "ai/governance.md").read_text(encoding="utf-8")
+            master = Path(tmp) / "gen-box/ai/governance.md"
+            master.parent.mkdir(parents=True)
+            master.write_text(source, encoding="utf-8")
+            self.assertEqual(MODULE.workspace_contract_problems(root), [])
+            master.write_text(source.replace("Ask first", "Never ask"), encoding="utf-8")
+            self.assertEqual(MODULE.workspace_contract_problems(root),
+                             ["workspace contract differs from the gen-box master: run tools/contract_sync.py in gen-box"])
+
     def test_claude_md_must_only_import_agents(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = self.copy_repo(tmp)
@@ -41,6 +53,12 @@ class WorkspaceContractTests(unittest.TestCase):
             {"check": "a", "status": "pass", "detail": "ok"},
             {"check": "b", "status": "fail", "detail": "broken"}]}
         self.assertEqual(MODULE.brief(summary), "HEALTH FAIL: 1/2 checks pass\nFAIL b: broken")
+
+    def test_brief_output_counts_skipped_checks_without_listing_them(self):
+        summary = {"failure_count": 0, "checks": [
+            {"check": "a", "status": "pass", "detail": "ok"},
+            {"check": "shell_syntax", "status": "skip", "detail": "bash not found"}]}
+        self.assertEqual(MODULE.brief(summary), "HEALTH PASS: 1/2 checks pass, 1 skipped")
 
 
 if __name__ == "__main__":
