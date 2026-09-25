@@ -181,12 +181,21 @@ def build(root: Path = ROOT) -> dict[str, object]:
     return {"structural_status": "fail" if failures else "pass", "failure_count": failures, "checks": checks}
 
 
+def brief(summary: dict) -> str:
+    failed = [c for c in summary["checks"] if c["status"] != "pass"]
+    status = "FAIL" if summary["failure_count"] else "PASS"
+    lines = [f"HEALTH {status}: {len(summary['checks']) - len(failed)}/{len(summary['checks'])} checks pass"]
+    lines += [f"{c['status'].upper()} {c['check']}: {c['detail']}" for c in failed]
+    return "\n".join(lines)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--strict", action="store_true")
-    parser.parse_args()
+    parser.add_argument("--json", action="store_true", help="print every check as JSON")
+    args = parser.parse_args()
     summary = build()
-    print(json.dumps(summary, indent=2))
+    print(json.dumps(summary, indent=2) if args.json else brief(summary))
     return 1 if summary["failure_count"] else 0
 
 

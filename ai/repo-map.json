@@ -17,7 +17,7 @@
   },
   "heavy_or_opt_in": [],
   "validators": [
-    "python3 -m unittest discover -s tests -v",
+    "python3 -m unittest discover -s tests",
     "python3 tools/health_check.py --strict",
     "GitHub Pages Jekyll build"
   ],

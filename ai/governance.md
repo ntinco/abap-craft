@@ -78,7 +78,7 @@ For material content changes, preserve author intent and obtain human acceptance
 Run:
 
 ```bash
-python3 -m unittest discover -s tests -v
+python3 -m unittest discover -s tests
 python3 tools/health_check.py --strict
 ```
 

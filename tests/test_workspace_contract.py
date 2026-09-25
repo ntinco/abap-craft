@@ -36,6 +36,12 @@ class WorkspaceContractTests(unittest.TestCase):
             (root / "CLAUDE.md").write_text("@AGENTS.md\nExtra rule.\n", encoding="utf-8")
             self.assertEqual(MODULE.workspace_contract_problems(root), ["CLAUDE.md must exist and contain only @AGENTS.md"])
 
+    def test_brief_output_lists_only_failures(self):
+        summary = {"failure_count": 1, "checks": [
+            {"check": "a", "status": "pass", "detail": "ok"},
+            {"check": "b", "status": "fail", "detail": "broken"}]}
+        self.assertEqual(MODULE.brief(summary), "HEALTH FAIL: 1/2 checks pass\nFAIL b: broken")
+
 
 if __name__ == "__main__":
     unittest.main()
