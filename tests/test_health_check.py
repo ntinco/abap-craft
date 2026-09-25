@@ -58,5 +58,19 @@ translations:
             self.assertEqual(health_check.repo_map(root)["status"], "fail")
 
 
+class BriefTests(unittest.TestCase):
+    def test_brief_output_lists_only_failures(self):
+        summary = {"failure_count": 1, "checks": [
+            {"check": "a", "status": "pass", "detail": "ok"},
+            {"check": "b", "status": "fail", "detail": "broken"}]}
+        self.assertEqual(health_check.brief(summary), "HEALTH FAIL: 1/2 checks pass\nFAIL b: broken")
+
+    def test_brief_output_counts_skipped_checks_without_listing_them(self):
+        summary = {"failure_count": 0, "checks": [
+            {"check": "a", "status": "pass", "detail": "ok"},
+            {"check": "shell_syntax", "status": "skip", "detail": "bash not found"}]}
+        self.assertEqual(health_check.brief(summary), "HEALTH PASS: 1/2 checks pass, 1 skipped")
+
+
 if __name__ == "__main__":
     unittest.main()
