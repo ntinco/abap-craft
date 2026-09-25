@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 from collections import defaultdict
 from pathlib import Path
@@ -135,7 +136,7 @@ def secret_scan(root: Path) -> dict[str, object]:
         if not path.is_file():
             continue
         rel = path.relative_to(root).as_posix()
-        if rel.startswith(".git/") or path.suffix.lower() not in TEXT_SUFFIXES:
+        if rel == ".git" or rel.startswith(".git/") or path.suffix.lower() not in TEXT_SUFFIXES:
             continue
         text = path.read_text(encoding="utf-8", errors="replace")
         for name, pattern in SECRET_PATTERNS.items():
@@ -168,6 +169,15 @@ def workspace_contract_problems(root: Path) -> list[str]:
         problems.append("CLAUDE.md must exist and contain only @AGENTS.md")
     if not (root / ".githooks/pre-commit").is_file():
         problems.append(".githooks/pre-commit is missing")
+    # The local digest only catches accidental edits; the gen-box master, when checked out beside this
+    # repository (WORKSPACE_ROOT or the parent directory), is the authority.
+    master = Path(os.environ.get("WORKSPACE_ROOT") or root.resolve().parent) / "gen-box/ai/governance.md"
+    if len(blocks) == 1 and not (root / "tools/contract_sync.py").is_file() and master.is_file():
+        master_blocks = WORKSPACE_CONTRACT.findall(master.read_text(encoding="utf-8").replace("\r\n", "\n"))
+        if len(master_blocks) != 1:
+            problems.append(f"gen-box master {master} must hold exactly one workspace contract block")
+        elif master_blocks[0] != blocks[0]:
+            problems.append("workspace contract differs from the gen-box master: run tools/contract_sync.py in gen-box")
     return problems
 
 
@@ -182,9 +192,12 @@ def build(root: Path = ROOT) -> dict[str, object]:
 
 
 def brief(summary: dict) -> str:
-    failed = [c for c in summary["checks"] if c["status"] != "pass"]
+    checks = summary["checks"]
+    failed = [c for c in checks if c["status"] == "fail"]
+    passed = sum(c["status"] == "pass" for c in checks)
+    skipped = len(checks) - passed - len(failed)
     status = "FAIL" if summary["failure_count"] else "PASS"
-    lines = [f"HEALTH {status}: {len(summary['checks']) - len(failed)}/{len(summary['checks'])} checks pass"]
+    lines = [f"HEALTH {status}: {passed}/{len(checks)} checks pass" + (f", {skipped} skipped" if skipped else "")]
     lines += [f"{c['status'].upper()} {c['check']}: {c['detail']}" for c in failed]
     return "\n".join(lines)
 
