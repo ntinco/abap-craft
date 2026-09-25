@@ -21,5 +21,11 @@
     "python3 tools/health_check.py --strict",
     "GitHub Pages Jekyll build"
   ],
-  "pending_acceptance": "ai/pending.md"
+  "pending_acceptance": "ai/pending.md",
+  "shared_files": {
+    "tools/workspace_contract.py": "shared/workspace_contract.py",
+    "tests/test_workspace_contract.py": "shared/test_workspace_contract.py",
+    ".githooks/pre-commit": "shared/githooks/pre-commit"
+  },
+  "cold_start_token_budget": 3200
 }
