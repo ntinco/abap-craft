@@ -1,8 +1,8 @@
-# ABAP Keyflow AI Governance
+# ABAP Craft AI Governance
 
 ## Identity
 
-ABAP Keyflow is a human-owned publication, an AI-operated publishing system, and a human-facing public artifact.
+ABAP Craft is a human-owned publication, an AI-operated publishing system, and a human-facing public artifact.
 
 AI-first optimization applies to the control plane. It must not make the repository unauditable, non-deterministic, unrecoverable, or dependent on a specific AI provider. Public output remains optimized for human readers because readers are the consumer of the artifact plane.
 
@@ -78,8 +78,55 @@ For material content changes, preserve author intent and obtain human acceptance
 Run:
 
 ```bash
-python -m unittest discover -s tests -v
-python tools/health_check.py --strict
+python3 -m unittest discover -s tests -v
+python3 tools/health_check.py --strict
 ```
 
 The existing GitHub Pages workflow remains the build/deploy validation for the public artifact.
+
+<!-- workspace-contract sha256:379df4eaa154 -->
+## Workspace contract
+
+Identical in the six repositories under `~/gh/`. The master copy is the one in
+`gen-box/ai/governance.md`: edit only that one, then run `python3 tools/contract_sync.py ~/gh` from `gen-box`.
+Two of the repositories are public, so this section never holds private detail.
+
+| Repo | Holds | Data class |
+|---|---|---|
+| `ntinco-os` | personal operating system: state, plans, time, finance, durable context | private-personal |
+| `abap-box` | ABAP/SAP technical memory: knowledge, cheatsheets, skills, SAP utilities | private-technical |
+| `abap-craft` | ABAP Craft, the public ABAP articles site | public |
+| `gen-box` | generic reusable tools and agent skills | private-technical |
+| `keyflow` | hotkeys, hotstrings and daily desktop automation (Windows/macOS) | public |
+| `keyflow-station` | workstation installation, maintenance and backup sync | private-technical |
+
+Content only moves to a repository of the same or a more private class, with one exception below.
+Private-personal content never leaves `ntinco-os`. Client or employer confidential data belongs in none of them.
+
+Routing between repositories:
+
+- Generic tool or file converter -> `gen-box`; other repositories run it from `~/gh/gen-box/tools/` and never copy it.
+- ABAP/SAP knowledge -> `abap-box`; to `abap-craft` only anonymized and with explicit human approval.
+- Hotkey, hotstring or daily desktop automation -> `keyflow`.
+- Installation, provisioning or machine maintenance -> `keyflow-station`.
+- Personal fact, plan, time or finance -> `ntinco-os`.
+- When a task belongs to another repository, say so and work there; never build a local substitute.
+
+Autonomy:
+
+- Without asking: read, edit, run validators and commit on the task branch.
+- Ask first: push, open a pull request, or change a repository other than the task's.
+- Only on explicit human order: merge or push to `main`; delete branches, tags, stashes, untracked files or remote data;
+  rewrite published history (rebase, amend, force push).
+
+Parallel work: one branch or worktree per task (`git worktree add ../<repo>-<task> -b <task>`). Never stage, commit,
+stash, reset or revert changes you did not make; if the tree holds foreign changes, use a new worktree.
+
+Pending acceptance: what waits for the human (runtime checks, claims to confirm) lives in one place per repository,
+declared in `ai/repo-map.json` -> `pending_acceptance`; that file may be absent while nothing is pending.
+
+Commands: write `python3` in commands and docs. Validators that need a specific OS or application (AutoHotkey,
+Hammerspoon, PowerShell, SAP) go in `ai/repo-map.json` -> `platform_validators` and never run in CI on another platform.
+Enable the versioned hooks once per clone with `git config core.hooksPath .githooks`; the pre-commit hook runs the
+health check. `CLAUDE.md` only imports `AGENTS.md`; it is never a second authority.
+<!-- /workspace-contract -->

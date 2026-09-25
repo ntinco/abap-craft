@@ -5,7 +5,7 @@ Use this template for legacy URL redirects under `posts/`.
 ```yaml
 ---
 layout: redirect
-title: "Redirecting to the canonical ABAP Keyflow article"
+title: "Redirecting to the canonical ABAP Craft article"
 redirect_to: /architecture/YYYY/MM/DD/en-<slug>/
 ---
 ```

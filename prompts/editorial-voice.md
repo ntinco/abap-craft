@@ -1,6 +1,6 @@
 # Editorial voice
 
-Human-owned editorial and positioning guidance for ABAP Keyflow. Operational, privacy and publishing rules live in `ai/governance.md`; this file should not duplicate them.
+Human-owned editorial and positioning guidance for ABAP Craft. Operational, privacy and publishing rules live in `ai/governance.md`; this file should not duplicate them.
 
 ## Positioning
 
