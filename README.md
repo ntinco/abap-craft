@@ -1,10 +1,10 @@
-# ABAP Keyflow
+# ABAP Craft
 
 Human-owned publication · AI-operated publishing system · human-facing output.
 
-ABAP Keyflow publishes practical SAP/ABAP architecture lessons from real experience. The public artifact is optimized for readers; the repository control plane is optimized for reliable AI operation and human audit.
+ABAP Craft publishes practical SAP/ABAP architecture lessons from real experience. The public artifact is optimized for readers; the repository control plane is optimized for reliable AI operation and human audit.
 
-Website: `https://nor001.github.io/ABAP_Keyflow/`
+Website: `https://nor001.github.io/ABAP_Keyflow/` (the URL keeps the former name ABAP Keyflow so published links stay stable).
 
 ## Publication plane
 

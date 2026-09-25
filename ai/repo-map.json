@@ -17,8 +17,9 @@
   },
   "heavy_or_opt_in": [],
   "validators": [
-    "python -m unittest discover -s tests -v",
-    "python tools/health_check.py --strict",
+    "python3 -m unittest discover -s tests -v",
+    "python3 tools/health_check.py --strict",
     "GitHub Pages Jekyll build"
-  ]
+  ],
+  "pending_acceptance": "ai/pending.md"
 }

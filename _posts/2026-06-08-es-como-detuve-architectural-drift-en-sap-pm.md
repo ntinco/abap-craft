@@ -7,7 +7,7 @@ categories: [arquitectura]
 description: "Como una taxonomia de responsabilidades en ABAP me permitio frenar architectural drift en una codebase SAP PM."
 og_description: "Decision arquitectonica aplicada en ABAP: separar API, CLIENT, SERVICE, FACADE y EXT para reducir regresiones."
 twitter_description: "Como volvi visible la arquitectura en SAP PM usando responsabilidad explicita en ABAP."
-back_label: "Volver a ABAP Keyflow"
+back_label: "Volver a ABAP Craft"
 discuss_label: "Comenta este articulo"
 comments_intro: "Los comentarios usan GitHub Discussions."
 translations:

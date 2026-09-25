@@ -57,4 +57,4 @@ Copy and fill this template before running Workflow 01.
 
 - Optional snippets:
 - Optional diagrams:
-- Related ABAP Keyflow links:
+- Related ABAP Craft links:

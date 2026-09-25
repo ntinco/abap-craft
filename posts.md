@@ -5,7 +5,7 @@ title: Posts
 
 # Posts
 
-Browse all ABAP Keyflow articles.
+Browse all ABAP Craft articles.
 
 <ul>
   {% for post in site.posts %}

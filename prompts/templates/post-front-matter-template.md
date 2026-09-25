@@ -12,7 +12,7 @@ categories: [architecture]
 description: "<short architecture-focused summary>"
 og_description: "<optional override for OG>"
 twitter_description: "<optional override for Twitter>"
-back_label: "Back to ABAP Keyflow"
+back_label: "Back to ABAP Craft"
 discuss_label: "Discuss this article"
 comments_intro: "Comments are powered by GitHub Discussions."
 translations:

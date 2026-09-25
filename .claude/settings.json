@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Edit(**/.env)",
+      "Read(**/.env.*)",
+      "Edit(**/.env.*)",
+      "Read(**/secrets.*)",
+      "Edit(**/secrets.*)",
+      "Read(**/*.pem)",
+      "Edit(**/*.pem)",
+      "Read(**/*.key)",
+      "Edit(**/*.key)",
+      "Read(**/*.kdbx)",
+      "Edit(**/*.kdbx)",
+      "Read(**/*.pfx)",
+      "Edit(**/*.pfx)",
+      "Read(**/*.p12)",
+      "Edit(**/*.p12)",
+      "Read(**/*.ovpn)",
+      "Edit(**/*.ovpn)",
+      "Read(**/*.sapc)",
+      "Edit(**/*.sapc)",
+      "Read(~/.ssh/**)",
+      "Edit(~/.ssh/**)"
+    ]
+  }
+}
