@@ -136,7 +136,7 @@ def secret_scan(root: Path) -> dict[str, object]:
         if not path.is_file():
             continue
         rel = path.relative_to(root).as_posix()
-        if rel.startswith(".git/") or path.suffix.lower() not in TEXT_SUFFIXES:
+        if rel == ".git" or rel.startswith(".git/") or path.suffix.lower() not in TEXT_SUFFIXES:
             continue
         text = path.read_text(encoding="utf-8", errors="replace")
         for name, pattern in SECRET_PATTERNS.items():
