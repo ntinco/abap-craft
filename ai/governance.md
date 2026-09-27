@@ -84,7 +84,7 @@ python3 tools/health_check.py --strict
 
 The existing GitHub Pages workflow remains the build/deploy validation for the public artifact.
 
-<!-- workspace-contract sha256:d8eaf857bab1 -->
+<!-- workspace-contract sha256:e0e9bf4324e7 -->
 ## Workspace contract
 
 Identical in the six repositories under `~/gh/`. The master copy is the one in
@@ -122,7 +122,7 @@ Routing between repositories:
   the gen-box source and run `contract_sync.py`; a copy edited in place fails the health check.
 - ABAP/SAP knowledge -> `abap-box`; to `abap-craft` only anonymized and with explicit human approval.
 - Hotkey, hotstring or daily desktop automation -> `keyflow`.
-- Installation, provisioning or machine maintenance -> `keyflow-station`.
+- Installation, provisioning or machine maintenance -> `keyflow-station`; Claude Code user config -> `gen-box/claude/`.
 - Personal fact, plan, time or finance -> `ntinco-os`.
 - When a task belongs to another repository, say so and work there; never build a local substitute.
 
