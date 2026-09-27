@@ -84,7 +84,7 @@ python3 tools/health_check.py --strict
 
 The existing GitHub Pages workflow remains the build/deploy validation for the public artifact.
 
-<!-- workspace-contract sha256:d824c5fcc9c1 -->
+<!-- workspace-contract sha256:d8eaf857bab1 -->
 ## Workspace contract
 
 Identical in the six repositories under `~/gh/`. The master copy is the one in
@@ -155,6 +155,5 @@ the `GEN_BOX_TOKEN` secret is set.
 list to shell commands; the human wires it in `.claude/settings.json`, and the contract check requires it there with
 the 22 secret deny rules.
 Hooks and validators execute repository code: run them only on branches the human or their agents wrote, and review an
-outside contribution in CI or a disposable environment first. `CLAUDE.md` only imports `AGENTS.md`; it is never a
-second authority.
+outside contribution in CI or a disposable environment first.
 <!-- /workspace-contract -->
