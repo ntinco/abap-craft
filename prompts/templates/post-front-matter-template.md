@@ -21,10 +21,10 @@ translations:
     url: /architecture/YYYY/MM/DD/en-<slug>/
   - lang: de
     label: Deutsch
-    url: /architecture/YYYY/MM/DD/de-<slug>/
+    url: /architektur/YYYY/MM/DD/de-<slug>/
   - lang: es
     label: Espanol
-    url: /architecture/YYYY/MM/DD/es-<slug>/
+    url: /arquitectura/YYYY/MM/DD/es-<slug>/
 ---
 ```
 
@@ -32,4 +32,4 @@ Notes:
 
 - Keep filenames lowercase and ASCII-only.
 - Keep `lang` and `translations` fully aligned.
-- Update label and intro strings for DE and ES localized versions.
+- Localize the title, category, description, labels, and intro strings for DE and ES versions.

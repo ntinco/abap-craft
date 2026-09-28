@@ -1,6 +1,6 @@
 # Article Brief Template
 
-Copy and fill this template before running Workflow 01.
+Copy and fill this template before drafting an article.
 
 ## Metadata
 
