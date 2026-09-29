@@ -84,7 +84,7 @@ python3 tools/health_check.py --strict
 
 The existing GitHub Pages workflow remains the build/deploy validation for the public artifact.
 
-<!-- workspace-contract sha256:d11ff2278c21 -->
+<!-- workspace-contract sha256:86950538dace -->
 ## Workspace contract
 
 Identical in the six repositories under `~/gh/`. The master copy is the one in
@@ -126,6 +126,16 @@ Routing between repositories:
   OpenClaw config and usage -> `gen-box/openclaw/`.
 - Personal fact, plan, time or finance -> `ntinco-os`.
 - When a task belongs to another repository, say so and work there; never build a local substitute.
+
+Architecture:
+
+- Each repository is a bounded context: its declared authorities own truth; agents, UIs and runtimes are adapters,
+  never authorities.
+- Reads may be broad, but every state-changing command crosses a repository-owned capability that revalidates input,
+  provenance and authorization at the privileged boundary. Untrusted input or model output never grants authority.
+- Prefer narrow opt-in capabilities and deterministic tools. Privileged asynchronous work uses
+  `request -> trusted worker -> result`; do not add a global database, event bus, workflow engine or duplicate schema
+  without a reproducible failure or repeated friction that justifies it.
 
 Autonomy:
 
