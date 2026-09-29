@@ -1,1 +1,5 @@
 __pycache__/
+
+# graphify-axet
+*.graphify*
+*.axet-code/
