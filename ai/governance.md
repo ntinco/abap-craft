@@ -84,7 +84,7 @@ python3 tools/health_check.py --strict
 
 The existing GitHub Pages workflow remains the build/deploy validation for the public artifact.
 
-<!-- workspace-contract sha256:3a5d67b3d953 -->
+<!-- workspace-contract sha256:b6919a8b8f04 -->
 ## Workspace contract
 
 Identical in the six repositories under `~/gh/`. The master copy is the one in
@@ -100,7 +100,7 @@ Precedence, highest first:
 5. Skills and templates, always optional.
 
 `AGENTS.md` and `CLAUDE.md` only point here. When a text and a validator disagree, the failing validator is the
-current truth: fix the rule or the code, never ignore the failure.
+current truth: fix the rule or the code, never ignore it.
 
 | Repo | Holds | Data class |
 |---|---|---|
@@ -112,7 +112,8 @@ current truth: fix the rule or the code, never ignore the failure.
 | `keyflow-station` | workstation installation, maintenance and backup sync | private-technical |
 
 Content only moves to a repository of the same or a more private class, with one exception below.
-Private-personal content never leaves `ntinco-os`. Client or employer confidential data belongs in none of them.
+`ntinco-os` alone holds private-personal data; approved adapters carry only what an authorized task needs.
+Client or employer confidential data belongs in none of them.
 
 Routing between repositories:
 
@@ -154,8 +155,7 @@ declared in `ai/repo-map.json` -> `pending_acceptance`; that file may be absent 
 
 Commands: write `python3` in commands and docs. Validators that need a specific OS or application (AutoHotkey,
 Hammerspoon, PowerShell, SAP) go in `ai/repo-map.json` -> `platform_validators` and never run in CI on another platform.
-Environments: macOS and Linux (CI and cloud sessions). Windows is out of scope until the human reopens it: no Windows
-CI and no Windows-only tooling work.
+Environments: macOS and Linux (CI, cloud sessions); Windows is out of scope until the human reopens it.
 Hooks: enable the versioned hooks once per clone with `git config core.hooksPath .githooks` (a Claude Code
 SessionStart hook in `.claude/settings.json` may do it); on macOS `python3 tools/link_workspace.py ~/gh` from `gen-box`
 points every repository at `gen-box/shared/githooks` instead. The pre-commit hook runs the check that
