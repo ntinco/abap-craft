@@ -84,7 +84,7 @@ python3 tools/health_check.py --strict
 
 The existing GitHub Pages workflow remains the build/deploy validation for the public artifact.
 
-<!-- workspace-contract sha256:b6919a8b8f04 -->
+<!-- workspace-contract sha256:f2b419251770 -->
 ## Workspace contract
 
 Identical in the six repositories under `~/gh/`. The master copy is the one in
@@ -109,7 +109,7 @@ current truth: fix the rule or the code, never ignore it.
 | `abap-craft` | ABAP Craft, the public ABAP articles site | public |
 | `gen-box` | generic reusable tools and agent skills | private-technical |
 | `keyflow` | hotkeys, hotstrings and daily desktop automation (Windows/macOS) | public |
-| `keyflow-station` | workstation installation, maintenance and backup sync | private-technical |
+| `workstation-ops` | workstation operations | private-technical |
 
 Content only moves to a repository of the same or a more private class, with one exception below.
 `ntinco-os` alone holds private-personal data; approved adapters carry only what an authorized task needs.
@@ -123,7 +123,7 @@ Routing between repositories:
   the gen-box source and run `contract_sync.py`; a copy edited in place fails the health check.
 - ABAP/SAP knowledge -> `abap-box`; to `abap-craft` only anonymized and with explicit human approval.
 - Hotkey, hotstring or daily desktop automation -> `keyflow`.
-- Installation, provisioning or machine maintenance -> `keyflow-station`; Claude Code user config -> `gen-box/claude/`;
+- Installation, provisioning or machine maintenance -> `workstation-ops`; Claude Code user config -> `gen-box/claude/`;
   OpenClaw config and usage -> `gen-box/openclaw/`.
 - Personal fact, plan, time or finance -> `ntinco-os`.
 - When a task belongs to another repository, say so and work there; never build a local substitute.
