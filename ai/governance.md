@@ -84,7 +84,7 @@ python3 tools/health_check.py --strict
 
 The existing GitHub Pages workflow remains the build/deploy validation for the public artifact.
 
-<!-- workspace-contract sha256:c0a8e072fe3e -->
+<!-- workspace-contract sha256:96c8fc3942d9 -->
 ## Workspace contract
 
 Identical in the six repositories under `~/gh/`. The master copy is the one in
@@ -144,8 +144,8 @@ Autonomy:
 - Without asking: read, edit, run validators and commit on the task branch.
 - Ask first: push, open a pull request, or change a repository other than the task's.
 - Only on explicit human order: merge or push to `main`; delete tags, stashes, untracked files or remote data;
-  rewrite published history (rebase, amend, force push). Standing order: after any completed merge, delete the merged
-  branch locally and remotely if present, and remove its worktree at task close; report blocked cleanup.
+  rewrite published history (rebase, amend, force push). Standing order: after each completed merge, delete its branch
+  locally and remotely if present, remove its worktree, and report blockers.
 
 Parallel work: one branch or worktree per task (`git worktree add ../<repo>-<task> -b <task>`). Never stage, commit,
 stash, reset or revert changes you did not make; if the tree holds foreign changes, use a new worktree.
