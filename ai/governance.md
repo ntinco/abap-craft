@@ -59,7 +59,7 @@ For material content changes, preserve author intent and obtain human acceptance
 
 Run the `validators` in `ai/repo-map.json` before completion; the GitHub Pages workflow is the build/deploy validation for the public artifact.
 
-<!-- workspace-contract sha256:11175b1cac67 -->
+<!-- workspace-contract sha256:248c3ea3ade2 -->
 ## Workspace contract
 
 Precedence, highest first:
@@ -78,7 +78,7 @@ When a text and a validator disagree, the failing validator is the current truth
 | `life-os` | personal state, plans, time, finance | private-personal |
 | `abap-box` | ABAP/SAP knowledge, skills, utilities | private-technical |
 | `abap-craft` | public ABAP articles; only anonymized, human-approved material | public |
-| `gen-box` | generic reusable tools and converters | private-technical |
+| `toolbox` | generic reusable tools and converters | private-technical |
 | `dev-factory` | execution of software-development agent tasks: runs, validation, review | public |
 | `keyflow` | hotkeys, hotstrings, daily desktop automation | public |
 | `netnewswire-ai` | NetNewsWire review, ranking, local enrichment and rollback | private-technical |
