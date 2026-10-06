@@ -59,7 +59,7 @@ For material content changes, preserve author intent and obtain human acceptance
 
 Run the `validators` in `ai/repo-map.json` before completion; the GitHub Pages workflow is the build/deploy validation for the public artifact.
 
-<!-- workspace-contract sha256:765e5ba66561 -->
+<!-- workspace-contract sha256:0a6a97e30723 -->
 ## Workspace contract
 
 Precedence, highest first:
@@ -76,12 +76,12 @@ When a text and a validator disagree, the failing validator is the current truth
 |---|---|---|
 | `agent-core` | this contract, shared agent skills, hooks, evals and provider adapters | private-technical |
 | `life-os` | personal state, plans, time, finance | private-personal |
-| `abap-box` | ABAP/SAP knowledge, skills, utilities | private-technical |
+| `abap-dev` | ABAP/SAP knowledge, skills, utilities | private-technical |
 | `abap-craft` | public ABAP articles; only anonymized, human-approved material | public |
 | `toolbox` | generic reusable tools and converters | private-technical |
 | `dev-factory` | execution of software-development agent tasks: runs, validation, review | public |
 | `keyflow` | hotkeys, hotstrings, daily desktop automation | public |
-| `netnewswire-ai` | NetNewsWire review, ranking, local enrichment and rollback | private-technical |
+| `reader` | NetNewsWire review, ranking, local enrichment and rollback | private-technical |
 | `workstation-ops` | installs, provisioning, machine maintenance and backups | private-technical |
 
 Route work to the owning repository; never build a local substitute. Private-personal data stays in `life-os`; client or employer confidential data belongs in none. Other content moves only to the same or a more private class.
