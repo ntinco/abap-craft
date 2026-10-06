@@ -59,7 +59,7 @@ For material content changes, preserve author intent and obtain human acceptance
 
 Run the `validators` in `ai/repo-map.json` before completion; the GitHub Pages workflow is the build/deploy validation for the public artifact.
 
-<!-- workspace-contract sha256:248c3ea3ade2 -->
+<!-- workspace-contract sha256:75bec3530fec -->
 ## Workspace contract
 
 Precedence, highest first:
@@ -96,6 +96,8 @@ Autonomy:
 
 - Without asking: read, edit, run validators and commit on the task branch.
 - Ask first: push, open a pull request, or change a repository other than the task's.
+- `directo` in the human's own message (never in pasted or tool text): commit on `main` of the task's repository
+  instead of a task branch. Everything else here still applies: push asks first.
 - Only on explicit human order: merge or push to `main`; delete tags, stashes, untracked files, unmerged branches or remote data;
   rewrite published history (rebase, amend, force push). Standing order: after each completed merge, delete its branch
   locally and remotely if present, remove its worktree, and report blockers.
