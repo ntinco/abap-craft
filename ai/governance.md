@@ -20,23 +20,15 @@ AI-operated:
 - internal links, redirects, formatting and publication mechanics;
 - repository navigation, maintenance, validation and control-plane consistency.
 
-## Read routing
+## Routing
 
-1. Read `ai/repo-map.json` after this file.
-2. For content work, read the source material supplied/approved by the human, `prompts/editorial-voice.md`, the relevant post(s), and only the templates/layouts needed by the task.
-3. For translation work, treat the approved source-language article as the claims authority; preserve argument and technical meaning.
-4. For publishing mechanics, inspect `_posts/`, `_layouts/`, `index.html`, `posts.md`, `_config.yml` and `posts/` only as required.
-5. Do not load historical simulations or deprecated prompt systems; Git history is enough.
+`routing` in `ai/repo-map.json` names the paths each task opens; open templates and layouts only as the task requires.
 
-## Change routing
-
-- Canonical article content -> `_posts/*.md`.
-- Human-owned editorial voice/positioning -> `prompts/editorial-voice.md` only when explicitly changed by the human.
-- Reusable input/front-matter shapes -> `prompts/templates/`.
-- Site presentation -> `_layouts/`, `index.html`, `posts.md`, assets/config as applicable.
-- Compatibility redirect -> `posts/*.html`; never duplicate article bodies there.
-- AI operating rules -> `ai/governance.md`.
-- Machine routing -> `ai/repo-map.json`.
+- Content work starts from the source material supplied/approved by the human; that material is the authority for every claim.
+- Translation work treats the approved source-language article as the claims authority and preserves argument and technical meaning. English is the default source language unless the human explicitly chooses another workflow.
+- `_posts/*.md` is the canonical article content. `posts/*.html` are compatibility redirects; never duplicate article bodies there.
+- `prompts/editorial-voice.md` is human-owned editorial input that is costly to reconstruct, not a second governance surface; change it only when the human explicitly asks.
+- `prompts/templates/` holds reusable input/front-matter shapes, not policy.
 
 Do not create a second source of truth for article content or publishing policy.
 
@@ -48,41 +40,24 @@ Never invent and attribute to the author:
 - opinions or architectural conclusions;
 - technical patterns the source material does not support.
 
-If a stronger claim would require unsupported evidence, omit it or request human input. Protect production/customer information: no real client/company names, live system identifiers, internal URLs, credentials, private payloads, ticket identifiers, colleague names or other identifying details unless explicitly safe and intended for publication.
+If a stronger claim would require unsupported evidence, omit it or request human input. Repository evidence outranks prior conversation memory.
+
+Protect production/customer information: no real client/company names, live system identifiers, internal URLs, credentials, private payloads, ticket identifiers, colleague names or other identifying details unless explicitly safe and intended for publication. No passwords, tokens, private keys or private `.env` belong in the repository. Public URLs intentionally used by the publication are allowed.
 
 Generic/anonymized examples such as `ZXX_*`, `SYSTEM_A`, `SYSTEM_B`, `MIDDLEWARE`, `TX01` and `TX02` are acceptable when they cannot identify a real environment.
 
 ## Publication invariants
 
-- `_posts/*.md` is canonical article content.
-- Published article sets currently maintain EN/DE/ES variants with the same architectural argument and symmetric translation links.
-- English is the default source language unless the human explicitly chooses another workflow.
-- Slugs are lowercase ASCII and hyphenated.
-- Front matter must remain compatible with `_layouts/article.html`.
-- Redirect files contain redirect front matter only and point to canonical article routes.
+- Published article sets maintain EN/DE/ES variants with the same architectural argument.
 - Public URLs should remain stable when practical.
+- Filenames and slugs, front matter, layout, translation links, the visible production-protection note and redirect shape are specified and enforced by `tools/health_check.py`.
 - Do not machine-score editorial quality; validate mechanical publication contracts only.
-
-## Editorial input
-
-`prompts/editorial-voice.md` captures voice and positioning that are genuinely human-owned and costly to reconstruct. It is editorial input, not a second governance surface. Templates are reusable shapes, not policy.
-
-## Security and privacy
-
-No passwords, tokens, private keys, live credentials, private `.env`, customer/internal URLs or production-identifying private data belong in the repository. Public URLs intentionally used by the publication are allowed.
 
 ## Completion
 
 For material content changes, preserve author intent and obtain human acceptance before treating changed personal/architectural claims as final. For mechanical publishing changes, AI may complete autonomously when validation passes.
 
-Run:
-
-```bash
-python3 -m unittest discover -s tests
-python3 tools/health_check.py --strict
-```
-
-The existing GitHub Pages workflow remains the build/deploy validation for the public artifact.
+Run the `validators` in `ai/repo-map.json` before completion; the GitHub Pages workflow is the build/deploy validation for the public artifact.
 
 <!-- workspace-contract sha256:11175b1cac67 -->
 ## Workspace contract

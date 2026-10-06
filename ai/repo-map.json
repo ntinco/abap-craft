@@ -1,21 +1,12 @@
 {
   "schema_version": "1.0",
   "purpose": "Human-owned publication operated primarily by AI with human-facing output.",
-  "domains": {
-    "control": ["AGENTS.md", "ai/governance.md", "ai/repo-map.json"],
-    "canonical_articles": ["_posts/"],
-    "presentation": ["_layouts/", "index.html", "posts.md", "_config.yml"],
-    "legacy_redirects": ["posts/"],
-    "editorial_voice": ["prompts/editorial-voice.md"],
-    "templates": ["prompts/templates/"]
-  },
   "routing": {
     "write_or_edit_article": ["prompts/editorial-voice.md", "_posts/"],
     "translation_sync": ["_posts/"],
     "publishing_mechanics": ["_posts/", "_layouts/", "index.html", "posts.md", "_config.yml", "posts/"],
     "editorial_voice_change": ["prompts/editorial-voice.md"]
   },
-  "heavy_or_opt_in": [],
   "validators": [
     "python3 -m unittest discover -s tests",
     "python3 tools/health_check.py --strict",
@@ -27,5 +18,5 @@
     "tests/test_workspace_contract.py": "shared/test_workspace_contract.py",
     ".githooks/pre-commit": "shared/githooks/pre-commit"
   },
-  "cold_start_token_budget": 2450
+  "cold_start_token_budget": 2070
 }

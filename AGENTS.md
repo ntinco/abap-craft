@@ -1,12 +1,6 @@
 # AGENTS.md
 
-Cold-start contract for ABAP Craft.
+Cold-start router for ABAP Craft.
 
-1. Read `ai/governance.md`.
-2. Read `ai/repo-map.json`.
-3. Open only task-relevant publication artifacts and editorial input.
-4. Never invent lived/project experience, metrics, outcomes, opinions or architectural conclusions and attribute them to the author.
-5. Preserve human-owned editorial position and obtain human acceptance for material publication claims.
-6. Validate affected publishing contracts before completion.
-7. Repository evidence outranks prior conversation memory.
-8. The `Workspace contract` at the end of `ai/governance.md` is binding.
+1. Read `ai/governance.md`; it and its `Workspace contract` are binding.
+2. Read `ai/repo-map.json` and open only what its `routing` gives for the task.
