@@ -57,7 +57,7 @@ Generic/anonymized examples such as `ZXX_*`, `SYSTEM_A`, `SYSTEM_B`, `MIDDLEWARE
 
 For material content changes, preserve author intent and obtain human acceptance before treating changed personal/architectural claims as final. For mechanical publishing changes, AI may complete autonomously when validation passes.
 
-Run the `validators` in `ai/repo-map.json` before completion; the GitHub Pages workflow is the build/deploy validation for the public artifact.
+Run the `validators` in `ai/repo-map.json` before completion; the last builds the site in Docker, and the GitHub Pages workflow deploys the public artifact.
 
 <!-- workspace-contract sha256:9bd4ddeb0233 -->
 ## Workspace contract

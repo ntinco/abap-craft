@@ -10,7 +10,7 @@
   "validators": [
     "python3 -m unittest discover -s tests",
     "python3 tools/health_check.py --strict",
-    "GitHub Pages Jekyll build"
+    "sh tools/jekyll_build.sh"
   ],
   "pending_acceptance": "ai/pending.md",
   "shared_files": {
