@@ -17,5 +17,5 @@
     "tools/workspace_contract.py": "shared/workspace_contract.py",
     ".githooks/pre-commit": "shared/githooks/pre-commit"
   },
-  "cold_start_token_budget": 2070
+  "cold_start_token_budget": 2120
 }
