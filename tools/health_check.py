@@ -119,14 +119,45 @@ def post_contracts(root: Path) -> dict[str, object]:
     return result("post_contracts", problems)
 
 
+def post_permalinks(root: Path) -> set[str]:
+    """Jekyll URLs of the canonical posts, for the `_config.yml` permalink pattern.
+
+    Supports what the posts use: inline-list or scalar categories, a front matter `date`, `slug` or `permalink`.
+    """
+    config = root / "_config.yml"
+    pattern = scalar(config.read_text(encoding="utf-8"), "permalink") if config.exists() else ""
+    pattern = pattern or "/:categories/:year/:month/:day/:title/"
+    urls: set[str] = set()
+    for path in sorted((root / "_posts").glob("*.md")):
+        match = re.fullmatch(r"(\d{4}-\d{2}-\d{2})-(.+)\.md", path.name)
+        if not match:
+            continue
+        fm, _ = front_matter(path.read_text(encoding="utf-8"))
+        if scalar(fm, "permalink"):
+            urls.add(scalar(fm, "permalink"))
+            continue
+        year, month, day = (scalar(fm, "date") or match.group(1))[:10].split("-")
+        raw = scalar(fm, "categories").strip("[]")
+        categories = dict.fromkeys(c.strip().strip('"\'').lower() for c in raw.split(",") if c.strip())
+        values = {"categories": "/".join(categories), "year": year, "month": month, "day": day,
+                  "title": scalar(fm, "slug") or match.group(2)}
+        url = re.sub(r":(categories|year|month|day|title)", lambda m: values[m.group(1)], pattern)
+        urls.add(re.sub(r"/{2,}", "/", url))
+    return urls
+
+
 def redirect_contracts(root: Path) -> dict[str, object]:
     problems: list[str] = []
+    permalinks = post_permalinks(root)
     for path in sorted((root / "posts").glob("*.html")):
         fm, body = front_matter(path.read_text(encoding="utf-8"))
         if scalar(fm, "layout") != "redirect":
             problems.append(f"{path.name}: layout must be redirect")
-        if not scalar(fm, "redirect_to").startswith("/"):
+        target = scalar(fm, "redirect_to")
+        if not target.startswith("/"):
             problems.append(f"{path.name}: redirect_to must be a site-local canonical path")
+        elif target not in permalinks:
+            problems.append(f"{path.name}: redirect_to {target} is not a canonical post permalink")
         if body.strip():
             problems.append(f"{path.name}: redirect must not duplicate article body")
     return result("redirect_contracts", problems)
