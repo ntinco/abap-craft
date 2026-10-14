@@ -149,13 +149,15 @@ class RedirectContractTests(unittest.TestCase):
                                  [f"old.html: redirect_to {target} is not a canonical post permalink"])
 
     def test_permalink_follows_jekyll_categories_and_overrides(self):
-        cases = {
-            "/sap/pm/2026/01/01/en-test/": article("en", category="SAP, pm"),
-            "/architecture/2026/01/01/renamed/": article("en", slug="renamed"),
-            "/fixed/": article("en", permalink="/fixed/"),
-        }
-        for target, post in cases.items():
-            with self.subTest(target=target):
+        cases = [
+            ("/sap/pm/2026/01/01/en-test/", article("en", category="SAP, pm")),
+            ("/sap/pm/2026/01/01/en-test/", article("en", categories="sap pm")),
+            ("/architecture/2026/01/01/renamed/", article("en", slug="renamed")),
+            ("/fixed/", article("en", permalink="/fixed/")),
+            ("/architecture/2026/01/01/en-test/", article("en", date="unparsed")),
+        ]
+        for target, post in cases:
+            with self.subTest(post=post.splitlines()[1:7]):
                 self.assertEqual(self.problems(f"---\nlayout: redirect\nredirect_to: {target}\n---\n", post), [])
 
 

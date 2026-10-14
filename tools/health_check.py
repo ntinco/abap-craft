@@ -136,9 +136,11 @@ def post_permalinks(root: Path) -> set[str]:
         if scalar(fm, "permalink"):
             urls.add(scalar(fm, "permalink"))
             continue
-        year, month, day = (scalar(fm, "date") or match.group(1))[:10].split("-")
-        raw = scalar(fm, "categories").strip("[]")
-        categories = dict.fromkeys(c.strip().strip('"\'').lower() for c in raw.split(",") if c.strip())
+        dated = re.match(r"(\d{4})-(\d{2})-(\d{2})", scalar(fm, "date")) or re.match(r"(\d{4})-(\d{2})-(\d{2})", path.name)
+        year, month, day = dated.groups()
+        raw = scalar(fm, "categories")
+        items = raw[1:-1].split(",") if raw.startswith("[") else raw.split()
+        categories = dict.fromkeys(c.strip().strip('"\'').lower() for c in items if c.strip())
         values = {"categories": "/".join(categories), "year": year, "month": month, "day": day,
                   "title": scalar(fm, "slug") or match.group(2)}
         url = re.sub(r":(categories|year|month|day|title)", lambda m: values[m.group(1)], pattern)
