@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Human-owned publication operated primarily by AI with human-facing output.",
+  "routing": {
+    "write_or_edit_article": ["prompts/editorial-voice.md", "_posts/"],
+    "translation_sync": ["_posts/"],
+    "publishing_mechanics": ["_posts/", "_layouts/", "index.html", "posts.md", "_config.yml", "posts/"],
+    "editorial_voice_change": ["prompts/editorial-voice.md"]
+  },
+  "validators": [
+    "python3 -m unittest discover -s tests",
+    "python3 tools/health_check.py --strict",
+    "sh tools/jekyll_build.sh"
+  ],
+  "pending_acceptance": "ai/pending.md",
+  "shared_files": {
+    "tools/workspace_contract.py": "shared/workspace_contract.py",
+    ".githooks/pre-commit": "shared/githooks/pre-commit"
+  },
+  "cold_start_token_budget": 2120
+}
