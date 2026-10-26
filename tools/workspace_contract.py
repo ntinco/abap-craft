@@ -1,11 +1,13 @@
-# shared: agent-core/shared/workspace_contract.py sha256:974e17fd445b (edit it in agent-core, then run tools/contract_sync.py in agent-core)
+# shared: agent-core/shared/workspace_contract.py sha256:4242214379c3 (edit it in agent-core, then run tools/contract_sync.py in agent-core)
 """Local workspace contract checks; the master copy is agent-core/shared/workspace_contract.py.
 
 problems(root) lists what breaks the workspace contract in the repository at root, reading nothing outside it: a
 contract block that is missing, duplicated or edited in place where ai/repo-map.json declares `workspace_contract_block`
 (agent-core, the master, and a repository whose tooling consumes the contract), or present where it does not, the wiring the contract requires (a pending_acceptance
 reference that resolves, CLAUDE.md, pre-commit hook settings, the secret deny rules and secret_guard hook in
-.claude/settings.json) and the cold-start token budget. Drift against agent-core (the contract master, the vendored files) is not checked here:
+.claude/settings.json), the cold-start token budget and the `review_exempt` globs (presentation files whose commits
+reach main without a cross review: tools/cross_review.py in agent-core imports the bounds below, so hook and check
+agree). Drift against agent-core (the contract master, the vendored files) is not checked here:
 `tools/contract_sync.py ROOT --check` in agent-core owns it.
 Run directly to print the problems of this repository; exits 1 when there are any. Standard library only.
 """
@@ -40,6 +42,10 @@ HEADING = re.compile(r" {0,3}#{1,6}[ \t]+(.*?)(?:[ \t]+#+)?[ \t]*$")
 FENCE = re.compile(r" {0,3}(`{3,}|~{3,})(.*)")
 COMMENT = re.compile(r"<!--.*?-->")
 UNRESOLVED = (OSError, RuntimeError, ValueError)  # unreadable or over-long, symlink loop, NUL or lone surrogate
+# review_exempt: the only file suffixes a commit exempt from cross review may change, and the roots it never touches.
+EXEMPT_SUFFIXES = frozenset({".html", ".css", ".svg", ".png", ".ico", ".woff2", ".txt", ".md"})
+EXEMPT_FORBIDDEN = ("ai/", ".githooks/", ".claude/", ".github/", "tools/", "shared/", "tests/", "src/", "adapters/")
+WILDCARD = re.compile(r"[*?\[]")
 
 
 def digest(text: str) -> str:
@@ -172,6 +178,33 @@ def settings_problems(root: Path) -> list[str]:
     return found
 
 
+def review_exempt_problems(value: object) -> list[str]:
+    """review_exempt is absent or a list of repository-relative POSIX globs, each under a folder outside the forbidden
+    roots and, when it ends in a literal suffix, one of EXEMPT_SUFFIXES."""
+    if value is None:
+        return []
+    where = "ai/repo-map.json review_exempt"
+    if not isinstance(value, list):
+        return [f"{where} must be a list of globs"]
+    found = []
+    for glob in value:
+        if not isinstance(glob, str) or not glob:
+            found.append(f"{where} holds {glob!r}: each glob must be a non-empty string")
+            continue
+        if glob.startswith("/") or "\\" in glob or "\0" in glob or ".." in glob.split("/"):
+            found.append(f"{where} {glob!r} must be repository-relative, POSIX, without `..`")
+            continue
+        wild = WILDCARD.search(glob)
+        prefix = glob[:wild.start()] if wild else glob
+        if "/" not in prefix or prefix.startswith(EXEMPT_FORBIDDEN):
+            found.append(f"{where} {glob!r} must start with a folder outside {', '.join(EXEMPT_FORBIDDEN)}")
+            continue
+        tail = glob[max((m.end() for m in WILDCARD.finditer(glob)), default=0):].rsplit("/", 1)[-1]
+        if "." in tail and "." + tail.rsplit(".", 1)[1] not in EXEMPT_SUFFIXES:
+            found.append(f"{where} {glob!r} ends in a suffix outside {', '.join(sorted(EXEMPT_SUFFIXES))}")
+    return found
+
+
 def problems(root: Path) -> list[str]:
     """Everything that breaks the workspace contract in the repository at root; empty when it holds."""
     repo_map = load_json(root / "ai/repo-map.json")
@@ -180,6 +213,7 @@ def problems(root: Path) -> list[str]:
     if read(root / "CLAUDE.md").strip() != "@AGENTS.md":
         found.append("CLAUDE.md must exist and contain only @AGENTS.md")
     found += settings_problems(root)
+    found += review_exempt_problems(repo_map.get("review_exempt"))
     conf = read(root / ".githooks/pre-commit.conf")
     # The hook sources the file, so the last assignment of each setting is the one that counts.
     if not CHECK.match(last_assignment(conf, "check")):
