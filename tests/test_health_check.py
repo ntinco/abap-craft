@@ -174,6 +174,21 @@ class BriefTests(unittest.TestCase):
             {"check": "shell_syntax", "status": "skip", "detail": "bash not found"}]}
         self.assertEqual(health_check.brief(summary), "HEALTH PASS: 1/2 checks pass, 1 skipped")
 
+    def test_skipped_workspace_contract_is_reported_as_a_notice(self):
+        with tempfile.TemporaryDirectory() as temp:
+            check = health_check.workspace_contract(Path(temp), Path(temp) / "agent-core/shared/workspace_contract.py")
+        self.assertEqual(check["status"], "skip")
+        summary = {"failure_count": 0, "checks": [{"check": "a", "status": "pass", "detail": "ok"}, check]}
+        self.assertEqual(health_check.brief(summary).splitlines(),
+                         ["HEALTH PASS: 1/2 checks pass, 1 skipped", f"NOTICE workspace_contract skipped: {check['detail']}"])
+
+    def test_workspace_contract_runs_agent_cores_check(self):
+        with tempfile.TemporaryDirectory() as temp:
+            shared = Path(temp) / "workspace_contract.py"
+            shared.write_text("def problems(root):\n    return [f'broken {root.name}']\n")
+            check = health_check.workspace_contract(Path(temp) / "repo", shared)
+        self.assertEqual((check["status"], check["detail"]), ("fail", ["broken repo"]))
+
 
 if __name__ == "__main__":
     unittest.main()

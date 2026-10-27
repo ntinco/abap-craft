@@ -2,16 +2,17 @@
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import re
-import sys
 from collections import defaultdict
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import workspace_contract as shared_contract  # noqa: E402
-
 ROOT = Path(__file__).resolve().parents[1]
+# agent-core runs the workspace contract check for every repository; none commits a copy of it.
+SHARED_CONTRACT = ROOT.parent / "agent-core" / "shared/workspace_contract.py"
+# Checks whose skip is printed as a notice, since a skipped check there leaves a contract unverified.
+NOTICE_ON_SKIP = {"workspace_contract"}
 LANGS = {"en", "de", "es"}
 REQUIRED = [
     "AGENTS.md", "README.md", "ai/governance.md", "ai/repo-map.json",
@@ -180,8 +181,23 @@ def secret_scan(root: Path) -> dict[str, object]:
     return result("secret_scan", problems)
 
 
-def workspace_contract(root: Path) -> dict[str, object]:
-    return result("workspace_contract", shared_contract.problems(root))
+def load_shared_contract(path: Path = SHARED_CONTRACT):
+    """agent-core's workspace_contract module, or None when agent-core is not beside this repository."""
+    if not path.is_file():
+        return None
+    spec = importlib.util.spec_from_file_location("workspace_contract", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def workspace_contract(root: Path, path: Path = SHARED_CONTRACT) -> dict[str, object]:
+    """Skipped with a notice, not failed, in a clone without agent-core beside it (CI clones this repository alone)."""
+    shared = load_shared_contract(path)
+    if shared is None:
+        return {"check": "workspace_contract", "status": "skip",
+                "detail": f"{path} not found: clone agent-core beside this repository to check the workspace contract"}
+    return result("workspace_contract", shared.problems(root))
 
 
 def build(root: Path = ROOT) -> dict[str, object]:
@@ -198,6 +214,8 @@ def brief(summary: dict) -> str:
     status = "FAIL" if summary["failure_count"] else "PASS"
     lines = [f"HEALTH {status}: {passed}/{len(checks)} checks pass" + (f", {skipped} skipped" if skipped else "")]
     lines += [f"{c['status'].upper()} {c['check']}: {c['detail']}" for c in failed]
+    lines += [f"NOTICE {c['check']} skipped: {c['detail']}" for c in checks if c["check"] in NOTICE_ON_SKIP
+              and c["status"] in ("skip", "skipped")]
     return "\n".join(lines)
 
 

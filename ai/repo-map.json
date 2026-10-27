@@ -13,9 +13,5 @@
     "sh tools/jekyll_build.sh"
   ],
   "pending_acceptance": "ai/pending.md",
-  "shared_files": {
-    "tools/workspace_contract.py": "shared/workspace_contract.py",
-    ".githooks/pre-commit": "shared/githooks/pre-commit"
-  },
   "cold_start_token_budget": 2120
 }

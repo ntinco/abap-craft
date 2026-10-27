@@ -10,8 +10,6 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    env:
-      HAS_AGENT_CORE: ${{ secrets.AGENT_CORE_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -21,21 +19,3 @@ jobs:
       - run: python3 tools/health_check.py --strict
       # The validator ai/repo-map.json declares: a pull request that breaks the site fails here, not after the merge.
       - run: sh tools/jekyll_build.sh
-      # Drift against agent-core: the repository is private, so this needs a read-only token in the AGENT_CORE_TOKEN secret.
-      - name: Check out agent-core
-        if: env.HAS_AGENT_CORE == 'true'
-        uses: actions/checkout@v4
-        with:
-          repository: ntinco/agent-core
-          token: ${{ secrets.AGENT_CORE_TOKEN }}
-          path: .ci-agent-core
-          persist-credentials: false
-      - name: Compare the contract and shared files with agent-core
-        if: env.HAS_AGENT_CORE == 'true'
-        run: |
-          mkdir -p "$RUNNER_TEMP/workspace"
-          mv .ci-agent-core "$RUNNER_TEMP/workspace/agent-core"
-          WORKSPACE_ROOT="$RUNNER_TEMP/workspace" python3 tools/workspace_contract.py
-      - name: Report the skipped drift check
-        if: env.HAS_AGENT_CORE != 'true'
-        run: echo "::notice::AGENT_CORE_TOKEN is not set; the contract and shared files were not compared with agent-core"
