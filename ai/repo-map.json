@@ -12,6 +12,5 @@
     "python3 tools/health_check.py --strict",
     "sh tools/jekyll_build.sh"
   ],
-  "pending_acceptance": "ai/pending.md",
-  "cold_start_token_budget": 2120
+  "pending_acceptance": "ai/pending.md"
 }
