@@ -12,7 +12,7 @@ Human-owned:
 - lived/project experience and factual claims about that experience;
 - architectural position, opinions and conclusions attributed to the author;
 - editorial voice and materially consequential positioning;
-- publication acceptance when claims or positioning materially change.
+- correcting a published article after the fact when a claim or positioning is not theirs.
 
 AI-operated:
 - article structure and draft implementation after intent/evidence is supplied;
@@ -56,6 +56,6 @@ Generic/anonymized examples such as `ZXX_*`, `SYSTEM_A`, `SYSTEM_B`, `MIDDLEWARE
 
 ## Completion
 
-For material content changes, preserve author intent and obtain human acceptance before treating changed personal/architectural claims as final. For mechanical publishing changes, AI may complete autonomously when validation passes.
+Content and mechanical changes alike are merged, pushed and published without waiting once validation passes; preserve author intent and keep every published text anonymized. The human reviews after publication and corrects.
 
 Run the `validators` in `ai/repo-map.json` before completion; the last builds the site in Docker, and the GitHub Pages workflow deploys the public artifact.
