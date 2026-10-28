@@ -52,6 +52,7 @@ Generic/anonymized examples such as `ZXX_*`, `SYSTEM_A`, `SYSTEM_B`, `MIDDLEWARE
 - Public URLs should remain stable when practical.
 - Filenames and slugs, front matter, layout, translation links, the visible production-protection note and redirect shape are specified and enforced by `tools/health_check.py`.
 - Do not machine-score editorial quality; validate mechanical publication contracts only.
+- Secrets are scanned by gitleaks, not by `tools/health_check.py`: locally by the workspace's shared pre-commit hook on every staged tree, and in CI by `.github/workflows/health-check.yml` on every push and pull request.
 
 ## Completion
 

@@ -32,11 +32,6 @@ FORBIDDEN_CONTROL = [
     "docs/rag-content-strategy.md",
     "docs/simple-content-system.md",
 ]
-TEXT_SUFFIXES = {".md", ".html", ".json", ".py", ".yml", ".yaml", ".css", ".js", ".xml", ".txt"}
-SECRET_PATTERNS = {
-    "private_key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
-    "credential_assignment": re.compile(r"(?i)\b(?:password|passwd|token|secret)\s*[=:]\s*[^\s${}<]{8,}"),
-}
 
 
 def result(name: str, problems: list[str]) -> dict[str, object]:
@@ -166,21 +161,6 @@ def redirect_contracts(root: Path) -> dict[str, object]:
     return result("redirect_contracts", problems)
 
 
-def secret_scan(root: Path) -> dict[str, object]:
-    problems: list[str] = []
-    for path in root.rglob("*"):
-        if not path.is_file():
-            continue
-        rel = path.relative_to(root).as_posix()
-        if rel == ".git" or rel.startswith(".git/") or path.suffix.lower() not in TEXT_SUFFIXES:
-            continue
-        text = path.read_text(encoding="utf-8", errors="replace")
-        for name, pattern in SECRET_PATTERNS.items():
-            if pattern.search(text):
-                problems.append(f"secret-like content: {rel}:{name}")
-    return result("secret_scan", problems)
-
-
 def load_shared_contract(path: Path = SHARED_CONTRACT):
     """agent-core's workspace_contract module, or None when agent-core is not beside this repository."""
     if not path.is_file():
@@ -201,7 +181,7 @@ def workspace_contract(root: Path, path: Path = SHARED_CONTRACT) -> dict[str, ob
 
 
 def build(root: Path = ROOT) -> dict[str, object]:
-    checks = [required_paths(root), forbidden_surfaces(root), repo_map(root), post_contracts(root), redirect_contracts(root), secret_scan(root), workspace_contract(root)]
+    checks = [required_paths(root), forbidden_surfaces(root), repo_map(root), post_contracts(root), redirect_contracts(root), workspace_contract(root)]
     failures = sum(c["status"] == "fail" for c in checks)
     return {"structural_status": "fail" if failures else "pass", "failure_count": failures, "checks": checks}
 
