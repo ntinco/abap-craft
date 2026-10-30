@@ -8,7 +8,7 @@
     "editorial_voice_change": ["prompts/editorial-voice.md"]
   },
   "validators": [
-    "python3 -m unittest discover -s tests",
+    "python3 ../agent-core/shared/run_tests.py",
     "python3 tools/health_check.py --strict",
     "sh tools/jekyll_build.sh"
   ],
